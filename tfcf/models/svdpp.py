@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow.compat.v1 as tf
+import tensorflow as tf2
 
 try:
     from tensorflow.keras import utils
@@ -107,7 +108,7 @@ class SVDPP(SVD):
                 name='implict_feedback_embedding',
                 shape=[num_items, num_factors],
                 initializer=tf.zeros_initializer(),
-                regularizer=tf.contrib.layers.l2_regularizer(self.reg_y_u))
+                regularizer=tf2.keras.regularizers.L2(self.reg_y_u))
 
             y_u = tf.gather(
                 tf.nn.embedding_lookup_sparse(
@@ -136,7 +137,7 @@ class SVDPP(SVD):
                     name='implict_feedback_embedding',
                     shape=[num_users, num_factors],
                     initializer=tf.zeros_initializer(),
-                    regularizer=tf.contrib.layers.l2_regularizer(self.reg_g_i))
+                    regularizer=tf2.keras.regularizers.L2(self.reg_g_i))
 
                 g_i = tf.gather(
                     tf.nn.embedding_lookup_sparse(
