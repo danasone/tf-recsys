@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow.compat.v1 as tf
+import tensorflow as tf2
 
 try:
     from tensorflow.keras import utils
@@ -49,7 +50,7 @@ class SVD(BaseModel):
             user_embeddings = tf.get_variable(
                 name='embedding',
                 shape=[num_users, num_factors],
-                initializer=tf.contrib.layers.xavier_initializer(),
+                initializer=tf2.initializers.GlorotUniform(),
                 regularizer=tf.contrib.layers.l2_regularizer(self.reg_p_u))
 
             user_bias = tf.get_variable(
