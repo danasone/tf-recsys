@@ -1,6 +1,6 @@
 import os
 import inspect
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 
 def _class_vars(obj):
