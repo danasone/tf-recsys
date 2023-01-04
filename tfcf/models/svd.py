@@ -23,7 +23,7 @@ class SVD(BaseModel):
     def _create_placeholders(self):
         """Returns the placeholders.
         """
-        with tf.variable_scope('placeholder'):
+        with tf.compat.v1.variable_scope('placeholder'):
             users = tf.placeholder(tf.int32, shape=[None, ], name='users')
             items = tf.placeholder(tf.int32, shape=[None, ], name='items')
             ratings = tf.placeholder(
@@ -34,7 +34,7 @@ class SVD(BaseModel):
     def _create_constants(self, mu):
         """Returns the constants.
         """
-        with tf.variable_scope('constant'):
+        with tf.compat.v1.variable_scope('constant'):
             _mu = tf.constant(mu, shape=[], dtype=tf.float32)
 
         return _mu
@@ -45,7 +45,7 @@ class SVD(BaseModel):
         num_users = self.num_users
         num_factors = self.num_factors
 
-        with tf.variable_scope('user'):
+        with tf.compat.v1.variable_scope('user'):
             user_embeddings = tf.get_variable(
                 name='embedding',
                 shape=[num_users, num_factors],
@@ -76,7 +76,7 @@ class SVD(BaseModel):
         num_items = self.num_items
         num_factors = self.num_factors
 
-        with tf.variable_scope('item'):
+        with tf.compat.v1.variable_scope('item'):
             item_embeddings = tf.get_variable(
                 name='embedding',
                 shape=[num_items, num_factors],
@@ -107,7 +107,7 @@ class SVD(BaseModel):
            Note that the prediction 
             r_hat = \mu + b_u + b_i + p_u * q_i
         """
-        with tf.variable_scope('prediction'):
+        with tf.compat.v1.variable_scope('prediction'):
             pred = tf.reduce_sum(
                 tf.multiply(p_u, q_i),
                 axis=1)
@@ -125,7 +125,7 @@ class SVD(BaseModel):
            The formula is here:
             L2 = sum((r - r_hat) ** 2) / 2
         """
-        with tf.variable_scope('loss'):
+        with tf.compat.v1.variable_scope('loss'):
             loss = tf.nn.l2_loss(tf.subtract(ratings, pred), name='loss')
 
         return loss
@@ -136,7 +136,7 @@ class SVD(BaseModel):
            The objective function is defined as the sum of
             loss and regularizers' losses.
         """
-        with tf.variable_scope('optimizer'):
+        with tf.compat.v1.variable_scope('optimizer'):
             objective = tf.add(
                 loss,
                 tf.add_n(tf.get_collection(
