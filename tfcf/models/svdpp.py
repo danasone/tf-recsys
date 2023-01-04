@@ -84,7 +84,7 @@ class SVDPP(SVD):
     def _create_implicit_feedback(self, implicit_feedback, dual=False):
         """Returns the (tuple of) sparse tensor(s) of implicit feedback.
         """
-        with tf.variable_scope('implicit_feedback'):
+        with tf.compat.v1.variable_scope('implicit_feedback'):
             if not dual:
                 N = tf.SparseTensor(**implicit_feedback)
 
@@ -102,7 +102,7 @@ class SVDPP(SVD):
 
         p_u, b_u = super(SVDPP, self)._create_user_terms(users)
 
-        with tf.variable_scope('user'):
+        with tf.compat.v1.variable_scope('user'):
             implicit_feedback_embeddings = tf.get_variable(
                 name='implict_feedback_embedding',
                 shape=[num_items, num_factors],
@@ -131,7 +131,7 @@ class SVDPP(SVD):
         if H is None:
             return q_i, b_i
         else:
-            with tf.variable_scope('item'):
+            with tf.compat.v1.variable_scope('item'):
                 implicit_feedback_embeddings = tf.get_variable(
                     name='implict_feedback_embedding',
                     shape=[num_users, num_factors],
@@ -151,7 +151,7 @@ class SVDPP(SVD):
             return q_i, b_i, g_i
 
     def _create_prediction(self, mu, b_u, b_i, p_u, q_i, y_u, g_i=None):
-        with tf.variable_scope('prediction'):
+        with tf.compat.v1.variable_scope('prediction'):
             if g_i is None:
                 pred = tf.reduce_sum(
                     tf.multiply(tf.add(p_u, y_u), q_i),
