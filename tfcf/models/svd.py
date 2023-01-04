@@ -51,7 +51,7 @@ class SVD(BaseModel):
                 name='embedding',
                 shape=[num_users, num_factors],
                 initializer=tf2.initializers.GlorotUniform(),
-                regularizer=tf2.keras.layers.l2_regularizer(self.reg_p_u))
+                regularizer=tf2.keras.regularizers.L2(self.reg_p_u))
 
             user_bias = tf.get_variable(
                 name='bias',
