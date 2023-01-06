@@ -145,7 +145,7 @@ class SVD(BaseModel):
                 name='objective')
 
             try:
-                optimizer = tf.contrib.keras.optimizers.Nadam(
+                optimizer = tf2.keras.optimizers.experimental.Nadam(
                 ).minimize(objective, name='optimizer')
             except:
                 optimizer = tf.train.AdamOptimizer().minimize(objective, name='optimizer')
